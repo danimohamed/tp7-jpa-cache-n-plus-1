@@ -1,0 +1,15 @@
+target/
+cp.txt
+demo_out.txt
+err.txt
+compile_out.txt
+test_out.txt
+
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+*.log

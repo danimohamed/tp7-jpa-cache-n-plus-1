@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Regions du cache de second niveau (EhCache 3 / JCache).
+
+    Les alias doivent correspondre aux noms de regions utilises par Hibernate. Avec la fabrique
+    JCache (JCacheRegionFactory) les regions techniques s'appellent "default-..." et non plus
+    "org.hibernate.cache...". Les noms ci-dessous ont ete releves dans les avertissements
+    HHH90001006 emis par Hibernate 5.6 lorsque la region est absente du fichier :
+
+      - <nom complet de l'entite>                     -> cache d'entite
+      - <nom complet de l'entite>.<nom du champ>      -> cache de collection
+      - default-update-timestamps-region              -> horodatage des mises a jour
+      - default-query-results-region                  -> resultats de requetes (query cache)
+
+    Ce fichier n'est PAS decouvert automatiquement par le fournisseur JCache d'EhCache
+    (contrairement au CacheManager EhCache natif) : il doit etre declare explicitement via
+    la propriete "hibernate.javax.cache.uri" de persistence.xml.
+
+    Toute region non declaree ici est creee automatiquement par Hibernate au premier acces.
+-->
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation='http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd'>
+
+    <cache alias="com.example.model.Auteur">
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000</heap>
+        </resources>
+    </cache>
+
+    <cache alias="com.example.model.Livre">
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000</heap>
+        </resources>
+    </cache>
+
+    <cache alias="com.example.model.Auteur.livres">
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000</heap>
+        </resources>
+    </cache>
+
+    <cache alias="default-update-timestamps-region">
+        <resources>
+            <heap unit="entries">10000</heap>
+        </resources>
+    </cache>
+
+    <cache alias="default-query-results-region">
+        <expiry>
+            <ttl unit="seconds">60</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">10000</heap>
+        </resources>
+    </cache>
+
+</config>
